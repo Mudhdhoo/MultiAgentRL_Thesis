@@ -11,7 +11,7 @@ def draw(env):
 
 def main():
     pygame.init()
-
+    print()
     BLOCK_SIZE = 20
 
     FPS = 60
