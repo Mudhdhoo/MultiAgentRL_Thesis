@@ -2,21 +2,14 @@ from WarehouseEnv import WarehouseEnv
 import pygame
 from levels import *
 
-def draw(env):
-    env.WINDOW.blit(env.FLOOR_TEXTURE, (0,0))
-    for wall in env.level:
-        env.WINDOW.blit(wall.texture, (wall.wall_element.x, wall.wall_element.y))
-    env.WINDOW.blit(env.agent.texture, (env.agent.rect.x, env.agent.rect.y))
-    pygame.display.update()
-
 def main():
     pygame.init()
-    print()
-    BLOCK_SIZE = 20
 
+    BLOCK_SIZE = 20
+    NUM_AGENTS = 5
     FPS = 60
 
-    warehouse = WarehouseEnv(level, BLOCK_SIZE)
+    warehouse = WarehouseEnv(level, BLOCK_SIZE, NUM_AGENTS)
     clock = pygame.time.Clock()
     playing = True
 
@@ -28,9 +21,11 @@ def main():
 
             if event.type == pygame.KEYDOWN:
                 button_pressed = event.key
-                warehouse.step(button_pressed)
+                agent = warehouse.agents[0]
+                reward, next_state = warehouse.step(button_pressed, agent)
+                print(reward, next_state)
 
-        draw(warehouse)
+        warehouse.render()
 
     pygame.quit()
 
