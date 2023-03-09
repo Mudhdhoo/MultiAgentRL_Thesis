@@ -22,8 +22,12 @@ def main():
             if event.type == pygame.KEYDOWN:
                 button_pressed = event.key
                 agent = warehouse.agents[0]
-                reward, next_state = warehouse.step(button_pressed, agent)
+                reward, next_state, done = warehouse.step(button_pressed, agent)
                 print(reward, next_state)
+            
+                if done:
+                    warehouse.reset()       # Reset the environment if an agent crashes into a wall or some other agent
+
 
         warehouse.render()
 

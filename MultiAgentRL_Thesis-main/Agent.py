@@ -2,12 +2,26 @@ import pygame
 import numpy as np
 
 class Agent:
-    def __init__(self, init_pos:tuple, size:int, texture) -> None:
+    """
+    The Agent class.
+
+    --------------- Parameters --------------- 
+    init_pos:tuple
+        Contains the initial starting coordinates of the agent.
+
+    size:int
+        Specifies the size of the agent, which is an n by n square.
+
+    texture:pygame.image
+        The image to be drawn on the agent.
+    """
+    def __init__(self, init_pos:tuple, size:int, texture:pygame.image) -> None:
         self.rect = pygame.Rect(init_pos[0], init_pos[1], size, size)
         self.size = size
         self.texture = texture
         self.position = [self.rect.x, self.rect.y]
         self.has_package = False
+        self.has_delivered = False
         self.state = []
         self.brain = 'super AI'
 
@@ -37,6 +51,9 @@ class Agent:
         self.rect.x += self.size
         self.position[0] = self.rect.x
 
-    def communicate(self, other_agents):
+    def communicate(self, other_agents:list):
+        """
+        Updates the agent state by gathering information about other agents coordinates. Updates pickup status
+        """
         self.state = np.array([agent.position for agent in other_agents]).flatten()     # Get every other agents position
         self.state = np.append(self.state, self.has_package)     # Get pickup status 

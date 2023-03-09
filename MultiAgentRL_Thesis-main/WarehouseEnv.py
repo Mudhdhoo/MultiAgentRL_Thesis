@@ -43,9 +43,10 @@ class WarehouseEnv:
         self.CRASH_REWARD = -30
         self.PICKUP_REWARD = 0
         self.DELIVERY_REWARD = 1
+        self.TERMINAL_REWARD = 0
         self.level = []
         self.make_level()
-        self.agents = [Agent(self.generate_start(), block_size, self.AGENT_TEXTURE) for _ in range(1, num_agents + 1)]
+        self.agents = [Agent(self.generate_starting_points(), block_size, self.AGENT_TEXTURE) for _ in range(1, num_agents + 1)]
         for agent in self.agents:
             agent.communicate(self.agents)      # Initialize communication between agents
 
@@ -73,14 +74,15 @@ class WarehouseEnv:
         agent. Returns the reward received by taking that action and the new state.
         """
         reward = self.STEP_REWARD
-
+        done = False
         # Move agent
         agent.move(button_pressed)
 
-        # Check for collisions
+        # Check for collisions with walls, pickup points and delivery points
         for wall in self.level:
             if pygame.Rect.colliderect(agent.rect, wall.wall_element) and wall.texture == self.WALL_TEXTURE:
                 reward = self.CRASH_REWARD
+                done = True
                 if button_pressed == pygame.K_LEFT:
                     agent.move_right()
                 elif button_pressed == pygame.K_RIGHT: 
@@ -89,7 +91,7 @@ class WarehouseEnv:
                     agent.move_down()
                 elif button_pressed == pygame.K_DOWN:
                     agent.move_up()
-                return reward, agent.state
+                return reward, agent.state, done
 
             if pygame.Rect.colliderect(agent.rect, wall.wall_element) and wall.texture == self.PICKUP_TEXTURE and not agent.has_package:
                 reward = self.PICKUP_REWARD
@@ -97,11 +99,18 @@ class WarehouseEnv:
 
             if pygame.Rect.colliderect(agent.rect, wall.wall_element) and wall.texture == self.DELIVERY_TEXTURE and agent.has_package:
                 reward = self.DELIVERY_REWARD
-                agent.has_package = False
+                done = True
+                agent.has_delivered = True
+
+        for other_agent in self.agents:
+            if pygame.Rect.colliderect(agent.rect, other_agent.rect) and agent != other_agent:
+                reward = self.CRASH_REWARD
+                done = True
+                #return reward, agent.state, done
 
         agent.communicate(self.agents)      # Get state information from other agents
 
-        return reward, agent.state
+        return reward, agent.state, done
 
     def reset(self) -> None:
         """
@@ -109,7 +118,7 @@ class WarehouseEnv:
         package status to False.
         """
         for agent in self.agents:
-            new_x, new_y = self.generate_start()
+            new_x, new_y = self.generate_starting_points()
             agent.has_package = False
             agent.rect.x = new_x
             agent.rect.y = new_y
@@ -126,7 +135,7 @@ class WarehouseEnv:
             self.WINDOW.blit(agent.texture, (agent.rect.x, agent.rect.y))
         pygame.display.update()
 
-    def generate_start(self) -> None:
+    def generate_starting_points(self) -> None:
         """
         Randomly generates an (x,y) pair of starting coordinates. Does not generate (x,y) that
         coincides with walls, pickup and delivery points.
