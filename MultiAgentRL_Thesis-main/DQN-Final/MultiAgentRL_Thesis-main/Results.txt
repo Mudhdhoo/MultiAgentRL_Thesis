@@ -1,0 +1,23 @@
+Environment 1:
+1 Agent:
+Successful Deliveries: 500 Crashes: 0
+2 Agent:
+Successful Deliveries: 486 Crashes: 14
+4 Agent:
+Successful Deliveries: 335 Crashes: 165
+
+Environment 2:
+1 Agent:
+Successful Deliveries: 500 Crashes: 0
+2 Agent:
+Successful Deliveries: 487 Crashes: 13
+4 Agent:
+Successful Deliveries: 376 Crashes: 124
+
+Environment 3:
+1 Agent:
+Successful Deliveries: 500 Crashes: 0
+2 Agent: 
+Successful Deliveries: 472 Crashes: 28
+4 Agent:
+Successful Deliveries:  Crashes:
