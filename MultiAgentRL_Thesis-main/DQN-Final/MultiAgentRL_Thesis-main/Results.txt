@@ -24,6 +24,6 @@ Successful Deliveries: 500 Crashes: 0
 2 Agent: 
 Successful Deliveries: 472 Crashes: 28
 3 Agent:
-Successful Deliveries:  Crashes: 
+Successful Deliveries: 429 Crashes: 71
 4 Agent:
 Successful Deliveries: 336 Crashes: 164
