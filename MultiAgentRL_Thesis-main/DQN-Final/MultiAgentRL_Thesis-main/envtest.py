@@ -40,7 +40,7 @@ def main():
                     agent.action = 1
                 
                 warehouse.step()
-                if agent.done:
+                if agent.done or agent.crash:
                     warehouse.reset()
                 print(agent.reward, agent.state)
                 #print(reward, agent.state, warehouse.agents[1].state, len(next_state))
