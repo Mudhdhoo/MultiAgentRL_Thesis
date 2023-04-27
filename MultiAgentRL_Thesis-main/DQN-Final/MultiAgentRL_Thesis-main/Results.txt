@@ -6,7 +6,7 @@ Successful Deliveries: 486 Crashes: 14
 3 Agent:
 Successful Deliveries: 452 Crashes: 48
 4 Agent:
-Successful Deliveries: 335 Crashes: 165
+Successful Deliveries: 389 Crashes: 111
 
 Environment 2:
 1 Agent:
