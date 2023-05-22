@@ -9,11 +9,11 @@ def main():
     #Parameters doesnt do anything but are required to use the environment
     gamma=0.95 #Discountfactor
     batch_size = 50 #Amount of sampled transitions from replaybuffer
-    buffer_size = 50000 #Max number of transitions stored
-    min_replay_size = 25000  #Minimum amount of transitions in replay before training
+    buffer_size = 25000 #Max number of transitions stored
+    min_replay_size = 12500  #Minimum amount of transitions in replay before training
     eps = 0 #Want deterministic while running with trained networks
     eps_min = 0.1
-    eps_dec = 1000000
+    eps_dec = 300000
     update_freq = 150 #How often targetparameters are copied fron online
     pygame.init()
 
